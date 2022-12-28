@@ -1,0 +1,123 @@
+* {
+    border: none;
+    box-sizing: border-box; 
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* <html> = the root */
+html {
+    font-size: 62.5%; /* (62.5/100) * 16px = 10px */
+}
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+html {
+    -webkit-text-size-adjust: none; /* for iOS Safari */
+    text-size-adjust: none; /* for other mobile browsers */
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+a {
+    /* Places underlines below the descenders */
+    text-underline-position: under;
+
+
+    /* Sets the thickness as a percentage of the font size */
+    text-decoration-thickness: 8;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+
+menu:not(article menu),
+ol:not(article ol),
+ul:not(article ul) {
+    list-style: none;
+}
+
+article ol,
+article ul {
+    list-style-position: inside;
+}
+
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+          scroll-behavior: smooth;
+    }
+}
+
+/* Begin Custom CSS */
+
+#id-tooltip {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.container {
+    height: auto;
+    width: 100%;
+    background-color: #ececec;
+}
+
+.form {
+    position: absolute;
+    top: 5%;
+    left: 30%;
+    width: 40%;
+    height: auto;
+    padding: 16px;
+}
+
+.fieldset {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    align-items: flex-start;
+}
+
+.field-label {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.field-input {
+    font-size: 20px;
+    color: black;
+    padding: 6px;
+    border: 1px solid #c1c1c1;
+    flex: 1;
+}
