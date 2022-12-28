@@ -78,7 +78,6 @@ async function validate(fields){
                 return false;
             }
         }
-
         //if field is not required and is empty, skip validation
         if (fields[i].value === "" && !fields[i].required){
             console.log("skipping validation for " + fields[i].name);
@@ -128,7 +127,7 @@ async function validate(fields){
             }
         }
         // check if field is phone or blank
-        if (fields[i].type === "phone"){
+        if (fields[i].type === "tel"){
             if (!isPhone(fields[i].value)){
                 alert(fields[i].name + " must be a valid 10 digit phone number");
                 return false;
@@ -170,9 +169,10 @@ function isBoolean(value){
 
 // function to check if a value is a valid phone number
 function isPhone(value){
-    // use regex to validate that value is a 10 digit phone number with or without an extension
+    console.log("validating phone number");
+    // use regex to validate that value is a phone number with optional extension
+    return value.match(/(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/);
 
-    return value.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}(\s?[xX]\s?[0-9]{1,5})?$/);
 }
 
 // function to check if a value is a file
