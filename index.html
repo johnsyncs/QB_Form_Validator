@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Form Validator</title>
     <link rel="stylesheet" href="index.css">
-      <script src="https://cdn.jsdelivr.net/gh/johnsyncs/QB_Form_Validator@2635b4cb6d0db067fb6e59ea01875bd63a0dcd52/QB_Form_Validator.js"></script>
+      <script src="QB_Form_Validator.js"></script>
 
   </head>
   <body>
@@ -14,11 +14,11 @@
     <p id="id-tooltip">*IDs for inputs are displayed in the label</p>
 
     <div class="container">
-        <div class="form">
+        <div class="my_form">
 
             <div class='fieldset'>
                 <label class="field-label" for='text-input'>text-input</label>
-                <input class="field-input" type='text' id='text-input' placeholder='Text Field'/>
+                <input class="field-input"  required=true type='text' id='text-input' placeholder='Text Field'/>
             </div>
 
             <div class='fieldset'>
@@ -31,15 +31,15 @@
                 <textarea class="field-input" type='text' id='multi-line-text-input' placeholder='Multi-Line-Text Field'></textarea>
             </div>
 
-            <div class='fieldset'>
-                <label class="field-label" for='multiple-choice-text-input'>multiple-choice-text-input</label>
-                <select id="multiple-choice-text-input" name="multiple-choice-text-input">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="fiat">Fiat</option>
-                    <option value="audi">Audi</option>
-                </select>
-            </div>
+<!--            <div class='fieldset'>-->
+<!--                <label class="field-label" for='multiple-choice-text-input'>multiple-choice-text-input</label>-->
+<!--                <select id="multiple-choice-text-input" name="multiple-choice-text-input">-->
+<!--                    <option value="volvo">Volvo</option>-->
+<!--                    <option value="saab">Saab</option>-->
+<!--                    <option value="fiat">Fiat</option>-->
+<!--                    <option value="audi">Audi</option>-->
+<!--                </select>-->
+<!--            </div>-->
 
             <div class='fieldset'>
                 <label class="field-label" for='list-multi-text-input'>list-multi-text-input</label>
@@ -83,7 +83,7 @@
 
             <div class='fieldset'>
                 <label class="field-label" for='duration-input'>date-input</label>
-                <input class="field-input" type='date' id='date-input' placeholder='Date Field'/>
+                <input class="field-input" required=true type='date' id='date-input' placeholder='Date Field'/>
             </div>
 
             <div class='fieldset'>
@@ -112,12 +112,25 @@
             </div>
 
             <div class="submit-button">
-                <button type="submit">Submit</button>
+                <button type="submit" onclick="submit()">Submit</button>
             </div>
 
         </div>
     </div>
 
-	<script src="QB_Form_Validator.js"></script>
+<script>
+    async function submit() {
+        let form_values = get_form_data('my_form')
+        console.log("form_values", form_values)
+        let validated = await validate(form_values)
+        console.log("validated", validated)
+    }
+
+
+
+
+
+
+</script>
   </body>
 </html>
