@@ -78,60 +78,61 @@ async function validate(fields){
             }
         }
 
-        // if a field is blank but not required, return true
-        if(fields[i].value === "" && !fields[i].required) {
-            return true;
+        // if it's not the case that the field is not required AND it's blank, then we can validate
+        if!(fields[i].value === "" && !fields[i].required){
+
+            // check if field is text or blank
+            if ( && fields[i].type === "text"){
+                if (!isText(fields[i].value)){
+                    alert(fields[i].name + " must be text");
+                    return false;
+                }
+            }
+            // check if field is multiple choice or blank
+            if (fields[i].type === "multipleChoice"){
+                if (!isMultipleChoice(fields[i].value, fields[i].options)){
+                    alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
+                    return false;
+                }
+            }
+            // check if field is email or blank
+            if (fields[i].type === "email"){
+                if (!isEmail(fields[i].value)){
+                    alert(fields[i].name + " must be a valid email");
+                    return false;
+                }
+            }
+            // check if field is number or blank
+            if (fields[i].type === "number"){
+                if (!isNumber(fields[i].value)){
+                    alert(fields[i].name + " must be a number");
+                    return false;
+                }
+            }
+            // check if field is date or blank
+            if (fields[i].type === "date"){
+                if (!isDate(fields[i].value)){
+                    alert(fields[i].name + " must be a date");
+                    return false;
+                }
+            }
+            // check if field is boolean or blank
+            if (fields[i].type === "boolean"){
+                if (!isBoolean(fields[i].value)){
+                    alert(fields[i].name + " must be a boolean");
+                    return false;
+                }
+            }
+            // check if field is phone or blank
+            if (fields[i].type === "phone"){
+                if (!isPhone(fields[i].value)){
+                    alert(fields[i].name + " must be a valid 10 digit phone number");
+                    return false;
+                }
+            }
+
         }
 
-        // check if field is text or blank
-        if (fields[i].type === "text"){
-            if (!isText(fields[i].value)){
-                alert(fields[i].name + " must be text");
-                return false;
-            }
-        }
-        // check if field is multiple choice or blank
-        if (fields[i].type === "multipleChoice"){
-            if (!isMultipleChoice(fields[i].value, fields[i].options)){
-                alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
-                return false;
-            }
-        }
-        // check if field is email or blank
-        if (fields[i].type === "email"){
-            if (!isEmail(fields[i].value)){
-                alert(fields[i].name + " must be a valid email");
-                return false;
-            }
-        }
-        // check if field is number or blank
-        if (fields[i].type === "number"){
-            if (!isNumber(fields[i].value)){
-                alert(fields[i].name + " must be a number");
-                return false;
-            }
-        }
-        // check if field is date or blank
-        if (fields[i].type === "date"){
-            if (!isDate(fields[i].value)){
-                alert(fields[i].name + " must be a date");
-                return false;
-            }
-        }
-        // check if field is boolean or blank
-        if (fields[i].type === "boolean"){
-            if (!isBoolean(fields[i].value)){
-                alert(fields[i].name + " must be a boolean");
-                return false;
-            }
-        }
-        // check if field is phone or blank
-        if (fields[i].type === "phone"){
-            if (!isPhone(fields[i].value)){
-                alert(fields[i].name + " must be a valid 10 digit phone number");
-                return false;
-            }
-        }
     }
 }
 
