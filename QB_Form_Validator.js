@@ -121,9 +121,7 @@ function isPhone(value){
     return value.match(/\d/g).length === 10;
 }
 
-
-
-console.log("Is it a date?", isDate("August 7, 2020"));
-console.log("Is it a number?", isNumber("123"));
-console.log("Is it a boolean?", isBoolean(true));
-console.log("Is it a phone number?", isPhone("540-13-4567"));
+// function to check if a value is a file
+function isFile(value){
+    return value instanceof File;
+}
