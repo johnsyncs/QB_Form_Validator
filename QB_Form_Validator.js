@@ -73,8 +73,9 @@ async function validate(fields){
         console.log(`value: ${fields[i].value}`);
         console.log(`type: ${fields[i].type}`);
         console.log(`required: ${fields[i].required}`);
+        console.log("datatype: ", typeof fields[i].required);
         // check if field is required
-        if (fields[i].required === 'True' || fields[i].required === 'true'){
+        if (fields[i].required){
             console.log(`${fields[i].name} is required`);
             // check if field is empty
             if (fields[i].value === ""){
@@ -84,7 +85,7 @@ async function validate(fields){
         }
 
         //if field is not required and is empty, skip validation
-        if (fields[i].value === "" && !(fields[i].required === 'True' || fields[i].required === 'true')){
+        if (fields[i].value === "" && !fields[i].required){
             console.log("skipping validation for " + fields[i].name);
             continue;
         }
