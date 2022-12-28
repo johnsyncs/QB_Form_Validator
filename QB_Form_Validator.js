@@ -23,20 +23,45 @@ fields = [
     }
 ]
 
-function get_form_data(form_class) {
-    let form = document.querySelector(`.${form_class}`);
-    let fields = form.querySelectorAll('.fieldset');
-    let fieldArray = [];
-    fields.forEach(field => {
-        let input = field.querySelector('.field-input');
-        let label = field.querySelector('.field-label');
-        let fieldObj = {
-            name: input.id,
-            value: input.value,
-            required: input.required,
-            type: input.type,
+function getValidationObjects() {
+    inputs = document.getElementsByTagName('input')
+    select = document.getElementsByTagName('select')
+    console.log("inputs: " + inputs);
+    fieldArray = []
+    Array.from(inputs).forEach(function(input) {
+        console.log("input: " + input);
+        if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
+                console.log("has attribute");
+
+
+                let fieldObj = {
+                    name: input.id,
+                    value: input.value,
+                    required: input.required,
+                    type: input.type,
+                }
+                fieldArray.push(fieldObj);
         }
-        fieldArray.push(fieldObj);
+    })
+
+    Array.from(select).forEach(function(input) {
+        console.log("input.data-validate: " + input.getAttribute('data-validate'));
+        if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
+        //if input is multiple choice, get the options and put them in an array
+            options = []
+            for (let i = 0; i < input.options.length; i++) {
+                options.push(input.options[i].value);
+            }
+            let fieldObj = {
+                name: input.id,
+                value: input.value,
+                required: input.required,
+                type: input.type,
+                options: options
+            }
+            fieldArray.push(fieldObj);
+
+    }
     })
     return fieldArray;
 }
@@ -52,6 +77,12 @@ async function validate(fields){
                 return false;
             }
         }
+
+        // if a field is blank but not required, return true
+        if(fields[i].value === "" && !fields[i].required) {
+            return true;
+        }
+
         // check if field is text or blank
         if (fields[i].type === "text"){
             if (!isText(fields[i].value)){
@@ -114,9 +145,10 @@ function isMultipleChoice(value, options){
     return options.includes(value);
 }
 
-// use regex to check if value is a valid email
+// function to verify valid email address
 function isEmail(value){
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    // use regex to validate that value is a valid email address
+    return value.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
 }
 
 // function to check if a value is a number
@@ -136,7 +168,9 @@ function isBoolean(value){
 
 // function to check if a value is a valid phone number
 function isPhone(value){
-    return value.match(/\d/g).length === 10;
+    // use regex to validate that value is a 10 digit phone number with or without an extension
+
+    return value.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}(\s?[xX]\s?[0-9]{1,5})?$/);
 }
 
 // function to check if a value is a file
