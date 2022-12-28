@@ -69,14 +69,9 @@ async function getValidationObjects() {
 async function validate(fields){
     // loop through each field
     for (let i = 0; i < fields.length; i++){
-        console.log(`field: ${fields[i].name}`);
-        console.log(`value: ${fields[i].value}`);
-        console.log(`type: ${fields[i].type}`);
-        console.log(`required: ${fields[i].required}`);
-        console.log("datatype: ", typeof fields[i].required);
+
         // check if field is required
         if (fields[i].required){
-            console.log(`${fields[i].name} is required`);
             // check if field is empty
             if (fields[i].value === ""){
                 alert(fields[i].name + " is required");
