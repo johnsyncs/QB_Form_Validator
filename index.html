@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Form Validator</title>
     <link rel="stylesheet" href="index.css">
-      <script src="QB_Form_Validator.js"></script>
+  <script src="QB_Form_Validator.js"></script>
 
   </head>
   <body>
@@ -83,7 +83,7 @@
 
             <div class='fieldset'>
                 <label class="field-label" for='duration-input'>date-input</label>
-                <input data-validate=True class="field-input" required=true type='date' id='date-input' placeholder='Date Field'/>
+                <input data-validate=True class="field-input" required=false type='date' id='date-input' placeholder='Date Field'/>
             </div>
 
             <div class='fieldset'>
@@ -120,7 +120,7 @@
 
 <script>
     async function submit() {
-         let validationObjects = await getValidationObjects()
+        let validationObjects = await getValidationObjects()
         let validation = await validate(validationObjects)
         console.log("validation objects: ", validationObjects)
         console.log("valid? ", validation)

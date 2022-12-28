@@ -23,11 +23,11 @@ fields = [
     }
 ]
 
-function getValidationObjects() {
-    inputs = document.getElementsByTagName('input')
-    select = document.getElementsByTagName('select')
+async function getValidationObjects() {
+    let inputs = document.getElementsByTagName('input')
+    let select = document.getElementsByTagName('select')
     console.log("inputs: " + inputs);
-    fieldArray = []
+    let fieldArray = []
     Array.from(inputs).forEach(function(input) {
         console.log("input: " + input);
         if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
@@ -69,8 +69,13 @@ function getValidationObjects() {
 async function validate(fields){
     // loop through each field
     for (let i = 0; i < fields.length; i++){
+        console.log(`field: ${fields[i].name}`);
+        console.log(`value: ${fields[i].value}`);
+        console.log(`type: ${fields[i].type}`);
+        console.log(`required: ${fields[i].required}`);
         // check if field is required
-        if (fields[i].required){
+        if (fields[i].required === 'True' || fields[i].required === 'true'){
+            console.log(`${fields[i].name} is required`);
             // check if field is empty
             if (fields[i].value === ""){
                 alert(fields[i].name + " is required");
@@ -78,62 +83,63 @@ async function validate(fields){
             }
         }
 
-        // if it's not the case that the field is not required AND it's blank, then we can validate
-        if!(fields[i].value === "" && !fields[i].required){
-
-            // check if field is text or blank
-            if ( && fields[i].type === "text"){
-                if (!isText(fields[i].value)){
-                    alert(fields[i].name + " must be text");
-                    return false;
-                }
-            }
-            // check if field is multiple choice or blank
-            if (fields[i].type === "multipleChoice"){
-                if (!isMultipleChoice(fields[i].value, fields[i].options)){
-                    alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
-                    return false;
-                }
-            }
-            // check if field is email or blank
-            if (fields[i].type === "email"){
-                if (!isEmail(fields[i].value)){
-                    alert(fields[i].name + " must be a valid email");
-                    return false;
-                }
-            }
-            // check if field is number or blank
-            if (fields[i].type === "number"){
-                if (!isNumber(fields[i].value)){
-                    alert(fields[i].name + " must be a number");
-                    return false;
-                }
-            }
-            // check if field is date or blank
-            if (fields[i].type === "date"){
-                if (!isDate(fields[i].value)){
-                    alert(fields[i].name + " must be a date");
-                    return false;
-                }
-            }
-            // check if field is boolean or blank
-            if (fields[i].type === "boolean"){
-                if (!isBoolean(fields[i].value)){
-                    alert(fields[i].name + " must be a boolean");
-                    return false;
-                }
-            }
-            // check if field is phone or blank
-            if (fields[i].type === "phone"){
-                if (!isPhone(fields[i].value)){
-                    alert(fields[i].name + " must be a valid 10 digit phone number");
-                    return false;
-                }
-            }
-
+        //if field is not required and is empty, skip validation
+        if (fields[i].value === "" && !(fields[i].required === 'True' || fields[i].required === 'true')){
+            console.log("skipping validation for " + fields[i].name);
+            continue;
         }
 
+        // check if field is text
+        if (fields[i].type === "text"){
+            if (!isText(fields[i].value)){
+                alert(fields[i].name + " must be text");
+                return false;
+            }
+        }
+        // check if field is multiple choice or blank
+        if (fields[i].type === "multipleChoice"){
+            if (!isMultipleChoice(fields[i].value, fields[i].options)){
+                alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
+                return false;
+            }
+        }
+        // check if field is email or blank
+        if (fields[i].type === "email"){
+            if (!isEmail(fields[i].value)){
+                alert(fields[i].name + " must be a valid email");
+                return false;
+            }
+        }
+        // check if field is number or blank
+        if (fields[i].type === "number"){
+            if (!isNumber(fields[i].value)){
+                alert(fields[i].name + " must be a number");
+                return false;
+            }
+        }
+        // check if field is date or blank
+        if (fields[i].type === "date"){
+            if (!isDate(fields[i].value)){
+                alert(fields[i].name + " must be a date");
+                return false;
+            }
+        }
+        // check if field is boolean or blank
+        if (fields[i].type === "boolean"){
+            if (!isBoolean(fields[i].value)){
+                alert(fields[i].name + " must be a boolean");
+                return false;
+            }
+        }
+        // check if field is phone or blank
+        if (fields[i].type === "phone"){
+            if (!isPhone(fields[i].value)){
+                alert(fields[i].name + " must be a valid 10 digit phone number");
+                return false;
+            }
+        }
     }
+    return true;
 }
 
 // function to check if a value is text
@@ -148,7 +154,6 @@ function isMultipleChoice(value, options){
 
 // function to verify valid email address
 function isEmail(value){
-    // use regex to validate that value is a valid email address
     return value.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
 }
 
