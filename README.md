@@ -7,10 +7,41 @@ To include in your html file, simply include the following line:
 
     <script src="https://cdn.jsdelivr.net/gh/johnsyncs/QB_Form_Validator@2635b4cb6d0db067fb6e59ea01875bd63a0dcd52/QB_Form_Validator.js"></script>
 
-Alternatively, include the link as a variable in your project settings file and reference it in your template.
-
 ## Usage
 The function `validate` takes in an array of validation objects. The validation object is a dictionary with 5 values: name, value, data_type, required and options. (options is only required for multiple choice inputs)
+Each validation object corresponds with an input element (input and select elements)
+
+### Example Validation Object Array:
+The following is an example of a validation object array named validation_objects:
+
+```javascript
+let validation_objects = [
+        {
+            name: "Phone Number",
+            value: document.getElementById("phone-number-input").value,
+            data_type: "tel",
+            required: false
+        },
+        {
+            name: "Name",
+            value: document.getElementById("text-input").value,
+            data_type: "text",
+            required: true
+        },
+        {
+            name: "Personality",
+            value: document.getElementById("multiple-choice-text-input").value,
+            data_type: "multiple-choice",
+            required: true,
+            options: [
+                "Default selected, disabled, and no value option",
+                "Optimist",
+                "Pessimist",
+                "Hey I ordered a cheeseburger"
+            ]
+        },
+    ]
+```
 
     // HTML element attributes:
     // data-validate - Required attribute which determines if an element should be validated

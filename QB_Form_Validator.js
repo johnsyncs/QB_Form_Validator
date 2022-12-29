@@ -3,38 +3,38 @@
 
 fields = [
     {
-        name: "name",
+        id: "name",
         value: "John",
         data_type: "text",
         required: true,
     },
     {
-        name: "email",
+        id: "email",
         value: "johnh@synctivate.com",
         data_type: "email",
         required: true,
     },
     {
-        name: "role",
+        id: "role",
         value: "admin",
         data_type: "multipleChoice",
         required: true,
         options: ["admin", "user", "guest"]
     },
     {
-        name: "age",
+        id: "age",
         value: "30",
         data_type: "number",
         required: true,
     },
     {
-        name: "birthday",
+        id: "birthday",
         value: "1990-01-01",
         data_type: "date",
         required: true,
     },
     {
-        name: "is_admin",
+        id: "is_admin",
         value: true,
         data_type: "checkbox",
         required: true,
@@ -53,7 +53,7 @@ async function getValidationObjects() {
         // if data-validate equals True or true, add to validationObjects array
         if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
                 let fieldObj = {
-                    name: input.id,
+                    id: input.id,
                     value: input.value,
                     required: input.required,
                     data_type: input.getAttribute('data-type'),
@@ -71,7 +71,7 @@ async function getValidationObjects() {
                 options.push(input.options[i].value);
             }
             let fieldObj = {
-                name: input.id,
+                id: input.id,
                 value: input.value,
                 required: input.required,
                 data_type: input.getAttribute('data-type'),
@@ -94,20 +94,20 @@ async function validate(fields){
         if (fields[i].required){
             // check if field is empty
             if (fields[i].value === ""){
-                addHelperText(fields[i].name, "Field required")
+                addHelperText(fields[i].id, "Field required")
                 isValidated = false;
             }
         }
         //if field is not required and is empty, skip validation
         if (fields[i].value === "" && !fields[i].required){
-            console.log("skipping validation for " + fields[i].name);
+            console.log("skipping validation for " + fields[i].id);
             continue;
         }
 
         // check if field is text
         if (type === "text"){
             if (!isText(fields[i].value)){
-                addHelperText(fields[i].name, "Must be text")
+                addHelperText(fields[i].id, "Must be text")
                 isValidated = false;
             }
         }
@@ -115,28 +115,28 @@ async function validate(fields){
         if (fields[i].options){
             console.log("validating multiple choice...");
             if (!isMultipleChoice(fields[i].value, fields[i].options)){
-                addHelperText(fields[i].name, "Invalid choice")
+                addHelperText(fields[i].id, "Invalid choice")
                 isValidated = false;
             }
         }
         // check if field is email or blank
         if (type === "email"){
             if (!isEmail(fields[i].value)){
-                addHelperText(fields[i].name, "Must be a valid email")
+                addHelperText(fields[i].id, "Must be a valid email")
                 isValidated = false;
             }
         }
         // check if field is number or blank
         if (type === "number"){
             if (!isNumber(fields[i].value)){
-                addHelperText(fields[i].name, "Must be a number")
+                addHelperText(fields[i].id, "Must be a number")
                 isValidated = false;
             }
         }
         // check if field is date or blank
         if (type === "date"){
             if (!isDate(fields[i].value)){
-                addHelperText(fields[i].name, "Must be a valid date")
+                addHelperText(fields[i].id, "Must be a valid date")
                 isValidated = false;
             }
         }
@@ -144,7 +144,7 @@ async function validate(fields){
         // check if field is phone or blank
         if (type === "tel"){
             if (!isPhone(fields[i].value)){
-                addHelperText(fields[i].name, "Must be a valid 10 digit phone number")
+                addHelperText(fields[i].id, "Must be a valid 10 digit phone number")
                 isValidated = false;
             }
         }
@@ -188,11 +188,6 @@ function isPhone(value){
     // use regex to validate that value is a phone number with optional extension
     return value.match(/(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/);
 
-}
-
-// function to check if a value is a file
-function isFile(value){
-    return value instanceof File;
 }
 
 function addHelperText(element_id, helper_text) {
