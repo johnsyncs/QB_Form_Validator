@@ -23,6 +23,8 @@ fields = [
     }
 ]
 
+//testing
+
 async function getValidationObjects() {
     // array to hold all validation objects
     let validationObjects = []
