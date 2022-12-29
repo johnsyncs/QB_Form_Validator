@@ -20,7 +20,26 @@ fields = [
         data_type: "multipleChoice",
         required: true,
         options: ["admin", "user", "guest"]
-    }
+    },
+    {
+        name: "age",
+        value: "30",
+        data_type: "number",
+        required: true,
+    },
+    {
+        name: "birthday",
+        value: "1990-01-01",
+        data_type: "date",
+        required: true,
+    },
+    {
+        name: "is_admin",
+        value: true,
+        data_type: "checkbox",
+        required: true,
+    },
+
 ]
 
 //testing
