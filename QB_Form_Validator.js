@@ -5,19 +5,19 @@ fields = [
     {
         name: "name",
         value: "John",
-        type: "text",
+        data_type: "text",
         required: true,
     },
     {
         name: "email",
         value: "johnh@synctivate.com",
-        type: "email",
+        data_type: "email",
         required: true,
     },
     {
         name: "role",
         value: "admin",
-        type: "multipleChoice",
+        data_type: "multipleChoice",
         required: true,
         options: ["admin", "user", "guest"]
     }
@@ -37,7 +37,6 @@ async function getValidationObjects() {
                     name: input.id,
                     value: input.value,
                     required: input.required,
-                    type: input.type,
                     data_type: input.getAttribute('data-type'),
                 }
                 validationObjects.push(fieldObj);
@@ -56,7 +55,6 @@ async function getValidationObjects() {
                 name: input.id,
                 value: input.value,
                 required: input.required,
-                type: input.type,
                 data_type: input.getAttribute('data-type'),
                 options: options
             }
