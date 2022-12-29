@@ -18,7 +18,7 @@
 
             <div class='fieldset'>
                 <label class="field-label" for='text-input'>text-input</label>
-                <input data-validate=true class="field-input" required type='text' id='text-input' placeholder='Text Field'/>
+                <input data-validate=true class="field-input" type='text' id='text-input' placeholder='Text Field'/>
             </div>
 
             <div class='fieldset'>
@@ -33,7 +33,8 @@
 
             <div class='fieldset'>
                 <label class="field-label" for='multiple-choice-text-input'>multiple-choice-text-input</label>
-                <select data-validate=True class="field-input" id="multiple-choice-text-input" type="select-one" name="multiple-choice-text-input">
+                <select required data-validate=True class="field-input" id="multiple-choice-text-input" type="select-one" name="multiple-choice-text-input">
+                    <option value="" selected disabled>Select an option</option>
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="fiat">Fiat</option>
