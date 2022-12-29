@@ -14,7 +14,7 @@
     <p id="id-tooltip">*IDs for inputs are displayed in the label</p>
 
     <div class="container">
-
+        <div class="my_form">
 
             <div class='fieldset'>
                 <label class="field-label" for='text-input'>text-input</label>
@@ -33,7 +33,8 @@
 
             <div class='fieldset'>
                 <label class="field-label" for='multiple-choice-text-input'>multiple-choice-text-input</label>
-                <select required data-validate=True class="field-input" id="multiple-choice-text-input" name="multiple-choice-text-input">
+                <select required data-validate=True class="field-input" id="multiple-choice-text-input" type="select-one" name="multiple-choice-text-input">
+                    <option value="" selected disabled>Select an option</option>
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="fiat">Fiat</option>
