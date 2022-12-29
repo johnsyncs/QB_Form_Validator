@@ -96,16 +96,16 @@ Each input element must have the following attributes:
 The following input element will be required, because it includes the required attribute. It will also be validated as a text input, because its data-type attribute equals 'text'.
  
 ```html
-    <input required data-validate=true data-type=text type='text' id='text-input' placeholder='Text Field'/>
+<input required data-validate=true data-type=text type='text' id='text-input'/>
 ```
 
 The following input element will not be required, because it does not include the required attribute. It will also be validated as a number input, because its data-type attribute equals 'number'.
  ```html
-    <input data-validate=true data-type=number type='number' id='number-input' placeholder='Number Field'/>
+<input data-validate=true data-type=number type='number' id='number-input'/>
 ```
 
 ## Example Implementation
-The following example illustrates how to use both the `validate()` and `getValidationObjects()` functions to validate form data. In this example, code is being prevented from running unless `validate()` returns true. If `validate()` returns false, the form will not be submitted.
+The following example illustrates how to use both the `validate()` and `getValidationObjects()` functions to prevent a user from submitting form data unless their input is validated. In this example, the `submit()` function won't run unless `validate()` returns true.
 
 ```html    
     
