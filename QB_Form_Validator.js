@@ -84,6 +84,7 @@ async function getValidationObjects() {
 }
 
 async function validate(fields){
+    let isValidated = true;
     // loop through each field
     for (let i = 0; i < fields.length; i++){
 
@@ -93,8 +94,8 @@ async function validate(fields){
         if (fields[i].required){
             // check if field is empty
             if (fields[i].value === ""){
-                alert(fields[i].name + " is required");
-                return false;
+                addHelperText(fields[i].name, "Field required")
+                isValidated = false;
             }
         }
         //if field is not required and is empty, skip validation
@@ -106,55 +107,49 @@ async function validate(fields){
         // check if field is text
         if (type === "text"){
             if (!isText(fields[i].value)){
-                alert(fields[i].name + " must be text");
-                return false;
+                addHelperText(fields[i].name, "Must be text")
+                isValidated = false;
             }
         }
         // check if field is multiple choice or blank
         if (fields[i].options){
             console.log("validating multiple choice...");
             if (!isMultipleChoice(fields[i].value, fields[i].options)){
-                alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
-                return false;
+                addHelperText(fields[i].name, "Invalid choice")
+                isValidated = false;
             }
         }
         // check if field is email or blank
         if (type === "email"){
             if (!isEmail(fields[i].value)){
-                alert(fields[i].name + " must be a valid email");
-                return false;
+                addHelperText(fields[i].name, "Must be a valid email")
+                isValidated = false;
             }
         }
         // check if field is number or blank
         if (type === "number"){
             if (!isNumber(fields[i].value)){
-                alert(fields[i].name + " must be a number");
-                return false;
+                addHelperText(fields[i].name, "Must be a number")
+                isValidated = false;
             }
         }
         // check if field is date or blank
         if (type === "date"){
             if (!isDate(fields[i].value)){
-                alert(fields[i].name + " must be a date");
-                return false;
+                addHelperText(fields[i].name, "Must be a valid date")
+                isValidated = false;
             }
         }
-        // check if field is boolean or blank
-        if (type === "checkbox"){
-            if (!isBoolean(fields[i].value)){
-                alert(fields[i].name + " must be a boolean");
-                return false;
-            }
-        }
+
         // check if field is phone or blank
         if (type === "tel"){
             if (!isPhone(fields[i].value)){
-                alert(fields[i].name + " must be a valid 10 digit phone number");
-                return false;
+                addHelperText(fields[i].name, "Must be a valid 10 digit phone number")
+                isValidated = false;
             }
         }
     }
-    return true;
+    return isValidated;
 }
 
 // function to check if a value is text
@@ -198,4 +193,23 @@ function isPhone(value){
 // function to check if a value is a file
 function isFile(value){
     return value instanceof File;
+}
+
+function addHelperText(element_id, helper_text) {
+
+    let element = document.getElementById(element_id)
+
+    element.style.outline = "1px solid red"
+    element.value = helper_text
+    element.style.color = "red"
+
+    element.addEventListener("input", () => {
+        removeHelperText(element)
+    })
+
+}
+
+function removeHelperText(element) {
+    element.style.outline = "none"
+    element.style.color = "black"
 }
