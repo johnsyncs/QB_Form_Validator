@@ -14,26 +14,26 @@
     <p id="id-tooltip">*IDs for inputs are displayed in the label</p>
 
     <div class="container">
-        <div class="my_form">
+
 
             <div class='fieldset'>
                 <label class="field-label" for='text-input'>text-input</label>
-                <input data-validate=true class="field-input" required type='text' id='text-input' placeholder='Text Field'/>
+                <input data-validate=true data-type=text class="field-input" required type='text' id='text-input' placeholder='Text Field'/>
             </div>
 
             <div class='fieldset'>
                 <label class="field-label" for='rich-text-input'>rich-text-input</label>
-                <input data-validate=true class="field-input" type='text' id='rich-text-input' placeholder='Rich-Text Field'/>
+                <input data-validate=true data-type=rich-text class="field-input" type='text' id='rich-text-input' placeholder='Rich-Text Field'/>
             </div>
 
             <div class='fieldset'>
                 <label class="field-label" for='multi-line-text-input'>multi-line-text-input</label>
-                <textarea data-validate=True class="field-input" type='text' id='multi-line-text-input' placeholder='Multi-Line-Text Field'></textarea>
+                <textarea data-validate=True class="field-input" data-type=text type='text' id='multi-line-text-input' placeholder='Multi-Line-Text Field'></textarea>
             </div>
 
             <div class='fieldset'>
                 <label class="field-label" for='multiple-choice-text-input'>multiple-choice-text-input</label>
-                <select data-validate=True class="field-input" id="multiple-choice-text-input" type="select-one" name="multiple-choice-text-input">
+                <select required data-validate=True class="field-input" id="multiple-choice-text-input" name="multiple-choice-text-input">
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
                     <option value="fiat">Fiat</option>
@@ -57,23 +57,8 @@
             </div>
 
             <div class='fieldset'>
-                <label class="field-label" for='url-input'>url-input</label>
-                <input data-validate=True class="field-input" type='url' id='url-input' placeholder='URL Field'/>
-            </div>
-
-            <div class='fieldset'>
                 <label class="field-label" for='numeric-input'>numeric-input</label>
-                <input data-validate=True class="field-input" type='text' id='numeric-input' placeholder='Numeric Field'/>
-            </div>
-
-            <div class='fieldset'>
-                <label class="field-label" for='numeric-percent-input'>numeric-percent-input</label>
-                <input data-validate=True class="field-input" type='text' id='numeric-percent-input' placeholder='Numeric-Percent Field'/>
-            </div>
-
-            <div class='fieldset'>
-                <label class="field-label" for='numeric-currency-input'>numeric-currency-input</label>
-                <input data-validate=True class="field-input" type='text' id='numeric-currency-input' placeholder='Numeric-Currency Field'/>
+                <input data-validate=True class="field-input" type='number' id='numeric-input' placeholder='Numeric Field'/>
             </div>
 
             <div class='fieldset'>
@@ -91,10 +76,6 @@
                 <input data-validate=True class="field-input" type='tel' id='phone-number-input' placeholder='Phone Number Field'/>
             </div>
 
-            <div class='fieldset'>
-                <label class="field-label" for='file-attachment-input'>file-attachment-input</label>
-                <input data-validate=True class="field-input" type='file' id='file-attachment-input' placeholder='File Attachment Field'/>
-            </div>
 
             <div class="submit-button">
                 <button type="submit" onclick="submit()">Submit</button>
@@ -104,6 +85,8 @@
     </div>
 
 <script>
+
+
     async function submit() {
         let validationObjects = await getValidationObjects()
         let validation = await validate(validationObjects)

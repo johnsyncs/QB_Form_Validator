@@ -24,31 +24,29 @@ fields = [
 ]
 
 async function getValidationObjects() {
+    // array to hold all validation objects
+    let validationObjects = []
+    // get all fields on the form
     let inputs = document.getElementsByTagName('input')
-    let select = document.getElementsByTagName('select')
-    console.log("inputs: " + inputs);
-    let fieldArray = []
     Array.from(inputs).forEach(function(input) {
-        console.log("input: " + input);
+        // if data-validate equals True or true, add to validationObjects array
         if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
-                console.log("has attribute");
-
-
                 let fieldObj = {
                     name: input.id,
                     value: input.value,
                     required: input.required,
                     type: input.type,
+                    data_type: input.getAttribute('data-type'),
                 }
-                fieldArray.push(fieldObj);
+                validationObjects.push(fieldObj);
         }
     })
-
+    let select = document.getElementsByTagName('select')
+    // get all select fields on the form
     Array.from(select).forEach(function(input) {
-        console.log("input.data-validate: " + input.getAttribute('data-validate'));
         if (input.hasAttribute('data-validate') && (input.getAttribute('data-validate')==='true' || input.getAttribute('data-validate')==='True')){
         //if input is multiple choice, get the options and put them in an array
-            options = []
+            let options = []
             for (let i = 0; i < input.options.length; i++) {
                 options.push(input.options[i].value);
             }
@@ -57,18 +55,20 @@ async function getValidationObjects() {
                 value: input.value,
                 required: input.required,
                 type: input.type,
+                data_type: input.getAttribute('data-type'),
                 options: options
             }
-            fieldArray.push(fieldObj);
-
-    }
+            validationObjects.push(fieldObj);
+        }
     })
-    return fieldArray;
+    return validationObjects;
 }
 
 async function validate(fields){
     // loop through each field
     for (let i = 0; i < fields.length; i++){
+
+        let type = fields[i].data_type;
 
         // check if field is required
         if (fields[i].required){
@@ -85,49 +85,50 @@ async function validate(fields){
         }
 
         // check if field is text
-        if (fields[i].type === "text"){
+        if (type === "text"){
             if (!isText(fields[i].value)){
                 alert(fields[i].name + " must be text");
                 return false;
             }
         }
         // check if field is multiple choice or blank
-        if (fields[i].type === "multipleChoice"){
+        if (fields[i].options){
+            console.log("validating multiple choice...");
             if (!isMultipleChoice(fields[i].value, fields[i].options)){
                 alert(fields[i].name + " must be one of the following option: " + fields[i].options.join(", "));
                 return false;
             }
         }
         // check if field is email or blank
-        if (fields[i].type === "email"){
+        if (type === "email"){
             if (!isEmail(fields[i].value)){
                 alert(fields[i].name + " must be a valid email");
                 return false;
             }
         }
         // check if field is number or blank
-        if (fields[i].type === "number"){
+        if (type === "number"){
             if (!isNumber(fields[i].value)){
                 alert(fields[i].name + " must be a number");
                 return false;
             }
         }
         // check if field is date or blank
-        if (fields[i].type === "date"){
+        if (type === "date"){
             if (!isDate(fields[i].value)){
                 alert(fields[i].name + " must be a date");
                 return false;
             }
         }
         // check if field is boolean or blank
-        if (fields[i].type === "boolean"){
+        if (type === "checkbox"){
             if (!isBoolean(fields[i].value)){
                 alert(fields[i].name + " must be a boolean");
                 return false;
             }
         }
         // check if field is phone or blank
-        if (fields[i].type === "tel"){
+        if (type === "tel"){
             if (!isPhone(fields[i].value)){
                 alert(fields[i].name + " must be a valid 10 digit phone number");
                 return false;
