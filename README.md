@@ -5,7 +5,7 @@ This package allows you to validate form data for quickBase in a simple way.
 ## Installation
 To include in your html file, simply include the following line:
 
-    <script src="https://cdn.jsdelivr.net/gh/johnsyncs/QB_Form_Validator@2635b4cb6d0db067fb6e59ea01875bd63a0dcd52/QB_Form_Validator.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/johnsyncs/QB_Form_Validator@1ddbd4e7cb9efcc790094d027bc848196ff5282d/QB_Form_Validator.js"></script>
 
 ## Usage
 The function `validate` takes in an array of validation objects and returns either True or False. A validation objects is a dictionaries with 5 values: name, value, data_type, required and options. (options is only required for multiple choice inputs)
