@@ -74,7 +74,7 @@ async function getValidationObjects() {
                 id: input.id,
                 value: input.value,
                 required: input.required,
-                data_type: input.getAttribute('data-type'),
+                data_type: 'multipleChoice',
                 options: options
             }
             validationObjects.push(fieldObj);
@@ -164,6 +164,7 @@ function isMultipleChoice(value, options){
 
 // function to verify valid email address
 function isEmail(value){
+    console.log("validating email...");
     return value.match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
 }
 

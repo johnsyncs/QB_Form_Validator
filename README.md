@@ -8,8 +8,13 @@ To include in your html file, simply include the following line:
     <script src="https://cdn.jsdelivr.net/gh/johnsyncs/QB_Form_Validator@2635b4cb6d0db067fb6e59ea01875bd63a0dcd52/QB_Form_Validator.js"></script>
 
 ## Usage
-The function `validate` takes in an array of validation objects. The validation object is a dictionary with 5 values: name, value, data_type, required and options. (options is only required for multiple choice inputs)
-Each validation object corresponds with an input element (input and select elements)
+The function `validate` takes in an array of validation objects and returns either True or False. A validation objects is a dictionaries with 5 values: name, value, data_type, required and options. (options is only required for multiple choice inputs)
+Each validation object corresponds with an input element (input and select elements). You can either provide the array yourself, your use getValidationObjects to automatically generate an array of validation objects from the form.
+
+For example, we could set the output of `validate()` to a variable called `validated`:
+```javascript
+let validated = validate(validation_objects)
+```
 
 ### Example Validation Object Array:
 The following is an example of a validation object array named validation_objects:
@@ -17,21 +22,21 @@ The following is an example of a validation object array named validation_object
 ```javascript
 let validation_objects = [
         {
-            name: "Phone Number",
-            value: document.getElementById("phone-number-input").value,
+            id: "phone-number",
+            value: document.getElementById("phone-number").value,
             data_type: "tel",
             required: false
         },
         {
-            name: "Name",
-            value: document.getElementById("text-input").value,
+            id: "first_name",
+            value: document.getElementById("first_name").value,
             data_type: "text",
             required: true
         },
         {
-            name: "Personality",
-            value: document.getElementById("multiple-choice-text-input").value,
-            data_type: "multiple-choice",
+            id: "personality",
+            value: document.getElementById("personality").value,
+            data_type: "multipleChoice",
             required: true,
             options: [
                 "Default selected, disabled, and no value option",
@@ -43,66 +48,75 @@ let validation_objects = [
     ]
 ```
 
-    // HTML element attributes:
-    // data-validate - Required attribute which determines if an element should be validated
-    // data-type     - Required attribute which determines how an element should be validated
-    // required      - Not a required attribute. If included, the element must have a value to pass validation.
+## Validation Object Properties
+* id: The id of the input element. This is used to find the input element in the DOM.
+
+* value: The value of the input element. This is used to validate the input element.
+
+* data_type: The data type of the input element. This is used to validate the input element.
+
+* required: Whether or not the input element is required. This is used to validate the input element. If a required input is blank, it will fail validation.
+
+* options: An array of valid options. If the input value does not match one of these options, the validation will fail.
+
+## Data Types
+The following values for `data-type` are supported by the validator:
+* text (will fail validation unless input is of type text)
+* number (will fail validation unless input is of type number)
+* email (will fail validation unless input is a valid email address)
+* tel (will fail validation unless input is a valid phone number)
+* date (will fail validation unless input is a valid date)
+* You do not need to include a data-type of 'multipleChoice' for a select element. The validator will automatically detect that it is a multiple choice input, and use the choices in the select element as the options.
+
+
+# Using the validation object array to validate form data
+
+using the validation object array from the example above, we can validate the form data like so:
+
+```javascript
+let validated = await validate(validation_objects)
+```
+
+if `validated` is true, then all of the form data is valid. If `validated` is false, then at least one of the form data is invalid, and the input elements will be highlighted with a red outline and a message will be displayed to the user:
+
+If a user attempts to leave a required field blank, the following message will be displayed:
+<br>![img.png](pictures/error_message.png)
+<br>If a user attempts to enter an invalid email, the following message will be displayed:
+<br>![img.png](img.png)
+
+# How to configure HTML to use getValidationObjects()
+The `getValidationObjects()` function returns an array of validation objects. This array can be used to validate the form data. To use `getValidationObjects()`, you must configure your HTML file such that input elements include the required attributes.
+
+## Input Element Attributes
+Each input element must have the following attributes:
+* data-type: The data type of the input element. This is used to validate the input element.
+* required: Whether or not the input element is required. Simply include the attribute to require a field. This is used to validate the input element. If a required input is blank, it will fail validation.
     
-    // data-type(s):
-    // text
-    // number
-    // email
-    // phone
-    // date
-    
-    // Example elements which will be validated (contains the data-validate=true | data-validate=True attribute) if `getValidationObjects()` is called:
-    
-    // Not required, and validated using the phone number regex
-    <input data-validate=True data-type=tel type='tel' id='phone-number-input' placeholder='Phone Number Field'/>
-    
-    // Is required, and validated using text validation
+### Example elements
+The following input element will be required, because it includes the required attribute. It will also be validated as a text input, because its data-type attribute equals 'text'.
+ 
+```html
     <input required data-validate=true data-type=text type='text' id='text-input' placeholder='Text Field'/>
-    
-    // Is required, and validated using multi-choice-text validation
-    <select required data-validate=True data-type="multiple-choice" id="multiple-choice-text-input" name="multiple-choice-text-input">
-        ... (options)
-    </select>
-    
-    
-    // Example output of `getValidationObjects()`
-    validation objects = [
-        {
-            name: "phone-number-input",
-            value: document.getElementById("phone-number-input").value,
-            data_type: "tel",
-            required: false
-        },
-        {
-            name: "text-input",
-            value: document.getElementById("text-input").value,
-            data_type: "text",
-            required: true
-        },
-        {
-            name: "multiple-choice-text-input",
-            value: document.getElementById("multiple-choice-text-input").value,
-            data_type: "multiple-choice",
-            required: true,
-            options: [
-                "Default selected, disabled, and no value option",
-                "Your option 1",
-                ...
-            ]
-        },
-    ]
+```
+
+The following input element will not be required, because it does not include the required attribute. It will also be validated as a number input, because its data-type attribute equals 'number'.
+ ```html
+    <input data-validate=true data-type=number type='number' id='number-input' placeholder='Number Field'/>
+```
+
+## Example Implementation
+The following example illustrates how to use both the `validate()` and `getValidationObjects()` functions to validate form data. In this example, code is being prevented from running unless `validate()` returns true. If `validate()` returns false, the form will not be submitted.
+
+```html    
     
     // Example button which calls the validation functions
     <div class="submit-button">
-        <button type="submit" onclick="submit()">Submit</button>
+        <button type="submit" onclick="validateAndSubmit()">Submit</button>
     </div>
 
-    // Submission example
-    async function submit() {
+    <script>
+
+    async function validateAndSubmit() {
     
         // Retrieves all HTML elements containing the attribute:
         // data-validate=true | data-validate=True
@@ -112,8 +126,11 @@ let validation_objects = [
         let validated = await validate(validationObjects)
         
         if (validated) {
-            // On success: DoSomething()
-        } else {
-            // On failure: DoSomethingElse()
+            submit()
         }
     }
+    function submit(){
+        // Submit form data
+    }
+    </script>
+```
